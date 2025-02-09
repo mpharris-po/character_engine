@@ -1,14 +1,16 @@
 from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/chat')
-def chat():
-    return "Welcome to the chat endpoint!"
+@socketio.on('message')
+def chat(msg):
+    print(msg)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
