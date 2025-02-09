@@ -29,7 +29,7 @@ class Character():
                 name = self.name,
                 backstory = self.backstory,
                 full_name = self.full_name,
-                conversation=self.conversation
+                conversation=getattr(self, "conversation", self.starter_prompt)
             )
 
             outfile.write(json.dumps(outobj, indent=4))
