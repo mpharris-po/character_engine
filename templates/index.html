@@ -205,7 +205,7 @@
     <div id="chat-box">
         <label for="character_select">Character</label>
         <select id="character_select">
-            <option value="value1">Option 1</option>
+            <option value="chelsea">Dr. Chelsea Barren</option>
             <option value="value2">Option 2</option>
             <option value="value3">Option 3</option>
         </select>
@@ -235,15 +235,17 @@
     <script>
         var socket = io();
         function send_message() {
-            var msg = document.getElementById('user-message').value;
-            if (msg.trim() !== "") {
+            var message_text = document.getElementById('user-message').value;
+            var character = document.getElementById("character_select").value;
+            
+            if (message_text.trim() !== "") {
                 // Append user message to the list
                 var userLi = document.createElement('li');
-                userLi.innerText = "You: " + msg;
+                userLi.innerText = "You: " + message_text;
                 document.getElementById('messages').appendChild(userLi);
 
                 // Emit the message to the server
-                socket.emit('message', msg);
+                socket.emit('message', {character, message_text});
                 document.getElementById('user-message').value = '';
             }
         }
