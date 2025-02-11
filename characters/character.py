@@ -19,7 +19,10 @@ class Character():
         self.full_name = kwargs.get("full_name", getattr(self, "full_name", ""))
         self.backstory = kwargs.get("backstory", getattr(self, "backstory", ""))
         self.nickname = kwargs.get("nickname", getattr(self, "nickname", ""))
+        self.secrets = kwargs.get("secrets", getattr(self, "secrets", ""))
         self.conversation = kwargs.get("conversation", getattr(self, "conversation", self.starter_prompt))
+        self.scenario = kwargs.get("scenario", getattr(self, "scenario", ""))
+        self.personality = kwargs.get("personality", getattr(self, "personality", ""))
 
     def save(self):
         
@@ -29,7 +32,10 @@ class Character():
                 name = self.name,
                 backstory = self.backstory,
                 full_name = self.full_name,
-                conversation=getattr(self, "conversation", self.starter_prompt)
+                conversation=getattr(self, "conversation", self.starter_prompt),
+                secrets=self.secrets,
+                scenario=self.scenario,
+                personality = self.personality,
             )
 
             outfile.write(json.dumps(outobj, indent=4))
@@ -51,14 +57,21 @@ class Character():
 
         return f"""You are an actor playing character in a murder mystery. 
         You embody your character.
+        You will be questioned by the player (user).
         Keep your conversation short and natural. 
         Only respond with what you say. Do not describe your movements. 
-        Give the user space to keep asking you questions.
-        This is the first round, and the user will be meeting you and all the other characters. 
-        You may share anything from your backstory. 
-        
+        Give the player space to keep asking you questions.
+        This is the first round, and the player will be meeting you and all the other characters. 
+        You may share anything from your Backstory below. 
+        You do not want to share your secrets with the player. 
+        When you are asked about a secret, you should casually deflect the question, unless you are directly accused of lying.
+        If the player accuses you of lying about one of your secrets, admit to it and share it with the player.
+
         Your Backstory:
         Your name is {self.full_name}. {self.backstory}
+
+        Your Secrets:
+        {self.secrets}
         """
     
     @property
