@@ -7,6 +7,7 @@ class Character():
     def __init__(self, *args, **kwargs):
 
         self.name = kwargs.get("name", None)
+        self.game = kwargs.get("game", "sour_grapes")
 
         if self.name:
             self.retrieve_saved_character()
@@ -15,6 +16,7 @@ class Character():
     
     def load_character(self, *args, **kwargs):
 
+        self.game = kwargs.get("game", getattr(self, "game", "sour_grapes"))
         self.name = kwargs.get("name", getattr(self, "name", ""))
         self.full_name = kwargs.get("full_name", getattr(self, "full_name", ""))
         self.backstory = kwargs.get("backstory", getattr(self, "backstory", ""))
@@ -26,7 +28,7 @@ class Character():
 
     def save(self):
         
-        with open(f"characters/profiles/{self.name}.json", "w") as outfile:
+        with open(f"games/{self.game}/characters/{self.name}.json", "w") as outfile:
 
             outobj = dict(
                 name = self.name,
@@ -46,7 +48,7 @@ class Character():
             return None
         
         try:
-            profile = json.loads(open(f"characters/profiles/{self.name}.json", "r").read())
+            profile = json.loads(open(f"games/{self.game}/characters/{self.name}.json", "r").read())
         except FileNotFoundError:
             profile = dict()
         

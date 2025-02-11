@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-from characters import Character
+from character import Character
 from dotenv import load_dotenv
 
 app = Flask(__name__)
