@@ -13,6 +13,9 @@ class Character():
             self.retrieve_saved_character()
         
         self.load_character(**kwargs) #override any fields 
+
+    def __str__(self):
+        return f"{self.game}/{self.name}"
     
     def load_character(self, *args, **kwargs):
 
